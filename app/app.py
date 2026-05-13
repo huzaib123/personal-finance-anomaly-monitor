@@ -12,7 +12,7 @@ OUTPUTS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'outputs'
 @app.route('/')
 def dashboard():
     """Render the main dashboard"""
-    return render_template('dashboard.html')
+    return render_template('index.html')
 
 @app.route('/api/burn-rate')
 def get_burn_rate():
