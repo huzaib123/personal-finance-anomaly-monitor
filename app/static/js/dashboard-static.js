@@ -1,30 +1,31 @@
 /* Static Dashboard JS — data pre-embedded for GitHub Pages */
 
-Chart.defaults.color = '#94a3b8';
-Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.04)';
-Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, sans-serif";
-Chart.defaults.font.weight = 500;
+Chart.defaults.color = '#666666';
+Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.05)';
+Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif";
+Chart.defaults.font.weight = 400;
+Chart.defaults.font.size = 12;
 Chart.defaults.plugins.legend.labels.usePointStyle = true;
-Chart.defaults.plugins.legend.labels.pointStyleWidth = 10;
-Chart.defaults.plugins.legend.labels.padding = 20;
-Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(6, 6, 11, 0.95)';
+Chart.defaults.plugins.legend.labels.pointStyleWidth = 8;
+Chart.defaults.plugins.legend.labels.padding = 18;
+Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(17, 17, 17, 0.97)';
 Chart.defaults.plugins.tooltip.borderColor = 'rgba(255,255,255,0.08)';
 Chart.defaults.plugins.tooltip.borderWidth = 1;
-Chart.defaults.plugins.tooltip.cornerRadius = 12;
-Chart.defaults.plugins.tooltip.padding = 14;
-Chart.defaults.plugins.tooltip.titleFont = { weight: 700, size: 13 };
-Chart.defaults.plugins.tooltip.bodyFont = { size: 12 };
+Chart.defaults.plugins.tooltip.cornerRadius = 8;
+Chart.defaults.plugins.tooltip.padding = 12;
+Chart.defaults.plugins.tooltip.titleFont = { weight: 600, size: 12 };
+Chart.defaults.plugins.tooltip.bodyFont = { size: 11, weight: 400 };
 Chart.defaults.plugins.tooltip.displayColors = true;
-Chart.defaults.plugins.tooltip.boxPadding = 6;
-Chart.defaults.animation = { duration: 1400, easing: 'easeOutQuart' };
-Chart.defaults.elements.point.radius = 3.5;
-Chart.defaults.elements.point.hoverRadius = 7;
+Chart.defaults.plugins.tooltip.boxPadding = 5;
+Chart.defaults.animation = { duration: 1200, easing: 'easeOutQuart' };
+Chart.defaults.elements.point.radius = 3;
+Chart.defaults.elements.point.hoverRadius = 6;
 Chart.defaults.elements.point.borderWidth = 2;
-Chart.defaults.elements.line.borderWidth = 2.5;
-Chart.defaults.elements.bar.borderRadius = 10;
+Chart.defaults.elements.line.borderWidth = 2;
+Chart.defaults.elements.bar.borderRadius = 6;
 
-const COLORS = { indigo:'#818cf8', violet:'#a78bfa', purple:'#c084fc', cyan:'#22d3ee', emerald:'#34d399', rose:'#fb7185', amber:'#fbbf24', blue:'#60a5fa', pink:'#f472b6', orange:'#fb923c' };
-const CATEGORY_COLORS = [COLORS.indigo, COLORS.violet, COLORS.cyan, COLORS.emerald, COLORS.rose, COLORS.amber, COLORS.blue, COLORS.pink, COLORS.orange, COLORS.purple];
+const COLORS = { blue:'#6b9fff', red:'#ff6b6b', green:'#4ecb71', amber:'#f0b429', grey:'#888888', light:'#cccccc', mid:'#555555', dim:'#333333' };
+const CATEGORY_COLORS = ['#6b9fff','#8f9fff','#a78bfa','#c084fc','#e879f9','#f472b6','#fb7185','#fb923c','#f0b429','#4ecb71'];
 
 // ── Embedded Data ──
 const DATA = {
@@ -50,7 +51,7 @@ const DATA = {
 
 function createGradient(ctx, c1, c2) { const g=ctx.createLinearGradient(0,0,0,ctx.canvas.height); g.addColorStop(0,c1); g.addColorStop(1,c2); return g; }
 
-function animateValue(el, end, prefix='', suffix='', duration=1100) {
+function animateValue(el, end, prefix='', suffix='', duration=1000) {
     const st=performance.now();
     const isInt=Number.isInteger(end);
     (function update(t){
@@ -61,8 +62,8 @@ function animateValue(el, end, prefix='', suffix='', duration=1100) {
 }
 
 const scaleOpts = (money=true) => ({
-    y:{beginAtZero:true,grid:{color:'rgba(255,255,255,0.03)',drawBorder:false},ticks:{callback:v=>money?'£'+v.toLocaleString():v,font:{family:"'JetBrains Mono',monospace",size:11},padding:8},border:{display:false}},
-    x:{grid:{display:false},ticks:{font:{size:10},maxTicksLimit:16,padding:4},border:{display:false}}
+    y:{beginAtZero:true,grid:{color:'rgba(255,255,255,0.04)',drawBorder:false},ticks:{callback:v=>money?'£'+v.toLocaleString():v,font:{family:"'JetBrains Mono',monospace",size:11},padding:8,color:'#555555'},border:{display:false}},
+    x:{grid:{display:false},ticks:{font:{size:11},maxTicksLimit:14,padding:4,color:'#555555'},border:{display:false}}
 });
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -73,26 +74,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Burn Rate
     const ctx1=document.getElementById('burnRateChart').getContext('2d');
-    new Chart(ctx1,{type:'line',data:{labels:DATA.burnRate.months,datasets:[{label:'Monthly Burn Rate (£)',data:DATA.burnRate.amounts,borderColor:COLORS.indigo,backgroundColor:createGradient(ctx1,'rgba(129,140,248,0.22)','rgba(129,140,248,0.01)'),tension:0.4,fill:true,pointBackgroundColor:'#06060b',pointBorderColor:COLORS.indigo}]},options:{responsive:true,maintainAspectRatio:true,interaction:{intersect:false,mode:'index'},plugins:{legend:{display:true,position:'top',align:'end'}},scales:scaleOpts()}});
+    new Chart(ctx1,{type:'line',data:{labels:DATA.burnRate.months,datasets:[{label:'Monthly Burn Rate (£)',data:DATA.burnRate.amounts,borderColor:COLORS.blue,backgroundColor:createGradient(ctx1,'rgba(107,159,255,0.15)','rgba(107,159,255,0.01)'),tension:0.35,fill:true,pointBackgroundColor:'#111111',pointBorderColor:COLORS.blue}]},options:{responsive:true,maintainAspectRatio:true,interaction:{intersect:false,mode:'index'},plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#666666'}}},scales:scaleOpts()}});
 
     // Categories
     const ctx2=document.getElementById('categoriesChart').getContext('2d');
-    const barG=CATEGORY_COLORS.map(c=>{const g=ctx2.createLinearGradient(0,0,0,ctx2.canvas.height);g.addColorStop(0,c+'ee');g.addColorStop(1,c+'44');return g;});
-    new Chart(ctx2,{type:'bar',data:{labels:DATA.categories.categories,datasets:[{label:'Spending (£)',data:DATA.categories.amounts,backgroundColor:barG,borderColor:CATEGORY_COLORS.map(c=>c+'cc'),borderWidth:1,borderSkipped:false,borderRadius:{topLeft:10,topRight:10},hoverBackgroundColor:CATEGORY_COLORS}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false}},scales:{...scaleOpts(),x:{grid:{display:false},ticks:{font:{size:10},maxRotation:45,minRotation:30},border:{display:false}}}}});
+    const barColors = CATEGORY_COLORS.map(c=>c+'cc');
+    new Chart(ctx2,{type:'bar',data:{labels:DATA.categories.categories,datasets:[{label:'Spending (£)',data:DATA.categories.amounts,backgroundColor:barColors,borderColor:'transparent',borderWidth:0,borderSkipped:false,hoverBackgroundColor:CATEGORY_COLORS}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false}},scales:{...scaleOpts(),x:{grid:{display:false},ticks:{font:{size:11},maxRotation:40,minRotation:30,color:'#555555'},border:{display:false}}}}});
 
     // Anomalies
     const ctx3=document.getElementById('anomaliesChart').getContext('2d');
-    new Chart(ctx3,{type:'scatter',data:{datasets:[{label:'Anomaly Days (£)',data:DATA.anomalies.dates.map((d,i)=>({x:d,y:DATA.anomalies.amounts[i]})),backgroundColor:COLORS.rose+'bb',borderColor:COLORS.rose,borderWidth:2,pointRadius:6,pointHoverRadius:10,pointStyle:'triangle'}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:true,position:'top',align:'end'}},scales:{...scaleOpts(),x:{type:'category',grid:{display:false},ticks:{font:{size:10},maxRotation:45,minRotation:30,maxTicksLimit:12},border:{display:false}}}}});
+    new Chart(ctx3,{type:'scatter',data:{datasets:[{label:'Anomaly Days (£)',data:DATA.anomalies.dates.map((d,i)=>({x:d,y:DATA.anomalies.amounts[i]})),backgroundColor:COLORS.red+'99',borderColor:COLORS.red,borderWidth:1.5,pointRadius:5,pointHoverRadius:8,pointStyle:'circle'}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#666666'}}},scales:{...scaleOpts(),x:{type:'category',grid:{display:false},ticks:{font:{size:11},maxRotation:40,minRotation:30,maxTicksLimit:10,color:'#555555'},border:{display:false}}}}});
 
     // Forecast
     const ctx4=document.getElementById('forecastChart').getContext('2d');
-    new Chart(ctx4,{type:'line',data:{labels:DATA.forecast.months,datasets:[{label:'Forecasted Burn Rate (£)',data:DATA.forecast.amounts,borderColor:COLORS.emerald,backgroundColor:createGradient(ctx4,'rgba(52,211,153,0.18)','rgba(52,211,153,0.01)'),borderDash:[8,4],tension:0.4,fill:true,pointBackgroundColor:'#06060b',pointBorderColor:COLORS.emerald,pointStyle:'rectRounded',pointRadius:5}]},options:{responsive:true,maintainAspectRatio:true,interaction:{intersect:false,mode:'index'},plugins:{legend:{display:true,position:'top',align:'end'}},scales:scaleOpts()}});
-
-    // Scroll animations
-    const obs=new IntersectionObserver(e=>e.forEach((en,i)=>{if(en.isIntersecting){setTimeout(()=>en.target.classList.add('visible'),i*120);obs.unobserve(en.target);}}),{threshold:0.08});
-    document.querySelectorAll('.chart-card').forEach(c=>{c.style.opacity='0';c.style.transform='translateY(40px)';c.style.transition='opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1)';obs.observe(c);});
-    const s=document.createElement('style');s.textContent='.chart-card.visible{opacity:1!important;transform:translateY(0)!important;}';document.head.appendChild(s);
-
-    // Parallax orbs
-    window.addEventListener('mousemove',e=>{const x=(e.clientX/window.innerWidth-0.5)*2,y=(e.clientY/window.innerHeight-0.5)*2;document.querySelectorAll('.orb').forEach((o,i)=>{o.style.transform=`translate(${x*(i+1)*8}px,${y*(i+1)*8}px)`;});});
+    new Chart(ctx4,{type:'line',data:{labels:DATA.forecast.months,datasets:[{label:'Forecasted Burn Rate (£)',data:DATA.forecast.amounts,borderColor:COLORS.green,backgroundColor:createGradient(ctx4,'rgba(78,203,113,0.12)','rgba(78,203,113,0.01)'),borderDash:[6,4],tension:0.3,fill:true,pointBackgroundColor:'#111111',pointBorderColor:COLORS.green,pointRadius:5}]},options:{responsive:true,maintainAspectRatio:true,interaction:{intersect:false,mode:'index'},plugins:{legend:{display:true,position:'top',align:'end',labels:{color:'#666666'}}},scales:scaleOpts()}});
 });
+
